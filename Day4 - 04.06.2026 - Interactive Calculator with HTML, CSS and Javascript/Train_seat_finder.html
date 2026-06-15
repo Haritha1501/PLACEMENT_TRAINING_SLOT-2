@@ -1,0 +1,115 @@
+<html>
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:linear-gradient(160deg,#0f172a,#1e293b,#334155);
+    font-family:'Segoe UI',sans-serif;
+    color:white;
+}
+
+input{
+    width:280px;
+    padding:12px;
+    margin:10px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.12);
+    color:white;
+    font-size:16px;
+    backdrop-filter:blur(8px);
+}
+
+input::placeholder{
+    color:#cbd5e1;
+}
+
+input:focus{
+    outline:none;
+    box-shadow:0 0 10px #38bdf8;
+}
+
+button{
+    margin-top:15px;
+    padding:12px 28px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(90deg,#22c55e,#16a34a);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(34,197,94,0.4);
+}
+
+h5{
+    color:#cbd5e1;
+    margin-top:25px;
+    letter-spacing:1px;
+}
+
+#seat{
+    margin-top:20px;
+    width:380px;
+    min-height:100px;
+    padding:20px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.15);
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    line-height:1.8;
+    text-align:left;
+    color:#f8fafc;
+}
+</style>
+<body>
+<h3>AC Coach seat Finder</h3>
+<input type="number" id = "getinp" placeholder = "Enter ur seat">
+<input type = "number" id = "getcls" placeholder = "Enter ur class">
+<button onclick="seatcheck()">Get seat</button>
+<h5>For ur AC ticket booking</h5>
+<h2 id="seat"></h2>
+</body>
+<script>
+function seatcheck(){
+	let number = document.getElementById("getinp").value
+	let num = number;
+	let cls = document.getElementById("getcls").value;
+	
+	if(cls==2){
+		let arr = ['LL','LU','RL','RU','SL','SU'];
+		if(num<0 || num>60){
+			document.getElementById("seat").textContent = "Invalid seat";
+			return;
+		}
+		while(num>5){
+			num-=6;
+		}
+		if(num==0) num=6;
+		document.getElementById("seat").innerHTML = "Class : 2nd AC<br> Seat number: "+number+"<br>Your seat is "+arr[num-1]+"<br> Enjoy your journey :)";
+	}
+	else if(cls==3){
+		let arr = ['LL','LM','LU','RL','RM','RU','SL','SU'];
+		if(num<0 || num>80){
+			document.getElementById("seat").textContent = "Invalid seat";
+			return;
+		}
+		while(num>7){
+			num-=8;
+		}
+		if(num==0) num=8;
+		document.getElementById("seat").innerHTML = "Class : 3rd AC<br> Seat number: "+number+"<br>Your seat is "+arr[num-1]+"<br> Enjoy your journey :)";
+	}
+}
+</script>
+</html>

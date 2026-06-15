@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coffee</title>
+</head>
+<style>
+    body{
+        margin:0;
+        min-height:100vh;
+        background:
+                linear-gradient(rgba(7,12,24,0.85), rgba(7,12,24,0.85)),
+                radial-gradient(circle at top, #1e293b 0%, #0f172a 70%);
+        font-family: 'Trebuchet MS', sans-serif;
+        text-align:center;
+        color:#f8e9d2;
+        padding-top:50px;
+    }
+
+    h1{
+        color:#ffd580;
+        text-shadow:
+                0 0 5px #ffd580,
+                0 0 15px #ffb347,
+                0 0 30px #ff8c42;
+        font-size:3rem;
+        margin-bottom:10px;
+    }
+
+    h4{
+        color:#d6c6a8;
+        font-weight:normal;
+        margin-bottom:35px;
+        letter-spacing:1px;
+    }
+
+    #orderItem{
+        display:flex;
+        justify-content:center;
+        gap:12px;
+        flex-wrap:wrap;
+    }
+
+    #coffeeType, #cust_name{
+        width:280px;
+        padding:12px;
+        border:none;
+        border-radius:30px;
+        background:#1c2536;
+        color:#fff;
+        font-size:15px;
+        box-shadow:0 0 10px rgba(255,213,128,0.15);
+    }
+
+    #cust_name::placeholder{
+        color:#a8a8a8;
+    }
+
+    #cust_name:focus{
+        outline:none;
+        box-shadow:0 0 15px rgba(255,213,128,0.5);
+    }
+    #coffeeType::placeholder{
+        color:#a8a8a8;
+    }
+
+    #coffeeType:focus{
+        outline:none;
+        box-shadow:0 0 15px rgba(255,213,128,0.5);
+    }
+
+    #placeOrder{
+        padding:12px 25px;
+        border:none;
+        border-radius:30px;
+        background:linear-gradient(135deg,#8b5e3c,#d4a373);
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    #placeOrder:hover{
+        transform:translateY(-2px);
+        box-shadow:0 0 20px rgba(212,163,115,0.5);
+    }
+
+    h2{
+        margin-top:40px;
+        color:#ffe4b5;
+    }
+
+    #orderList{
+        width:420px;
+        margin:20px auto;
+        text-align:left;
+        list-style:none;
+        padding:0;
+    }
+
+    #orderList li{
+        background:rgba(255,255,255,0.06);
+        margin:10px 0;
+        padding:14px 18px;
+        border-left:4px solid #d4a373;
+        border-radius:10px;
+        color:#f3e5d0;
+        backdrop-filter:blur(5px);
+        box-shadow:0 3px 10px rgba(0,0,0,0.3);
+    }
+</style>
+<body>
+<h1> Welcome to VIBE in Vibe Espresso </h1>
+<h4> Your order please...☺ </h4>
+<form id="orderItem">
+    <label for="cust_name"><input id="cust_name" placeholder = "your name here"></label>
+    <label for="coffeeType"><input id="coffeeType" placeholder = "order your coffee here"></label>
+    <button id="placeOrder" type="submit">Order!!</button>
+
+</form>
+<h2>Ur current orders:</h2>
+<ul id="orderList" style="text-align: left;"></ul>
+<script>
+    const form = document.getElementById("orderItem");
+    const lst = document.getElementById("orderList");
+
+    fetch("/coffee")
+    .then(res=>res.json())
+    .then(data=>data.forEach(cf=>addType(cf)));
+    form.addEventListener("submit",e=> {
+        e.preventDefault();
+        const name = document.getElementById("cust_name").value;
+        const type = document.getElementById("coffeeType").value;
+        fetch("/coffee/"+name+"/"+type, {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({})
+        })
+            .then(res=>res.text())
+            .then(type=>addType(type));
+        form.reset();
+    });
+    function addType(order){
+        const li = document.createElement("li");
+        li.textContent = order;
+        lst.appendChild(li);
+    }
+
+</script>
+</body>
+
+</html>

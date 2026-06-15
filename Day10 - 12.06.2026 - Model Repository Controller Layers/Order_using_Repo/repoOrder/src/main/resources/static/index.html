@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Morning Brew Cafe</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            background:
+                    linear-gradient(
+                            180deg,
+                            #fff8e7 0%,
+                            #ffe5b4 35%,
+                            #ffd6a5 100%
+                    );
+        }
+
+        .container{
+            width:auto;
+            background:rgba(255,255,255,0.75);
+            backdrop-filter:blur(10px);
+            padding:35px;
+            border-radius:25px;
+            box-shadow:0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        h1{
+            text-align:center;
+            color:#6f4e37;
+            margin-bottom:10px;
+        }
+
+        .tagline{
+            text-align:center;
+            color:#8b7355;
+            margin-bottom:25px;
+        }
+
+        form{
+            display:flex;
+            gap:10px;
+        }
+
+        #cust_id, #coffeeType, #custName{
+            flex:1;
+            padding:12px;
+            border:none;
+            border-radius:12px;
+            background:#fff;
+            box-shadow:0 0 5px rgba(0,0,0,0.1);
+            font-size:15px;
+        }
+
+        #cust_id, #custName, #coffeeType:focus{
+            outline:none;
+            box-shadow:0 0 12px rgba(255,183,77,0.5);
+        }
+
+        button{
+            padding:12px 20px;
+            border:none;
+            border-radius:12px;
+
+            background:#ffb74d;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+
+            transition:.3s;
+        }
+
+        button:hover{
+            background:#ff9800;
+            transform:translateY(-2px);
+        }
+
+        .orders{
+            margin-top:30px;
+        }
+
+        .orders h2{
+            color:#6f4e37;
+            margin-bottom:15px;
+        }
+
+        #orderList{
+            list-style:none;
+        }
+
+        #orderList li{
+            background:white;
+            margin:10px 0;
+            padding:12px;
+            border-left:6px solid #ffb74d;
+            border-radius:10px;
+
+            animation:slideIn .4s ease;
+        }
+
+        @keyframes slideIn{
+            from{
+                opacity:0;
+                transform:translateX(-20px);
+            }
+            to{
+                opacity:1;
+                transform:translateX(0);
+            }
+        }
+
+        .sun{
+            text-align:center;
+            font-size:40px;
+            margin-bottom:10px;
+        }
+
+        .footer{
+            text-align:center;
+            margin-top:20px;
+            color:#8b7355;
+            font-size:14px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="sun">🌅</div>
+
+    <h1>Sunrise Orders</h1>
+
+    <p class="tagline">
+        Fresh orders, fresh beginnings ✨
+    </p>
+    <form id="orderItem">
+
+        <input type="number" id="cust_id" placeholder="Get your id">
+        <input type="text" id="custName" placeholder="Enter your name">
+
+        <input type="text" id="coffeeType" placeholder="Enter your order">
+
+        <button type="submit">Place Order</button>
+<!--        <input-->
+<!--                type="text"-->
+<!--                id="coffeeType"-->
+<!--                placeholder="What would you like today?"-->
+<!--        >-->
+
+<!--        <button type="submit">-->
+<!--            Order ☕-->
+<!--        </button>-->
+
+    </form>
+
+    <div class="orders">
+
+        <h2>Order History</h2>
+
+        <ul id="orderList"></ul>
+
+    </div>
+
+    <div class="footer">
+        Freshly brewed every morning 🍃
+    </div>
+
+</div>
+
+<script>
+
+    const form = document.getElementById("orderItem");
+    const lst = document.getElementById("orderList");
+
+    fetch("/order")
+        .then(res => res.json())
+        .then(data => data.forEach(order => addType(order)));
+
+    form.addEventListener("submit", e => {
+
+        e.preventDefault();
+        const custId = document.getElementById("cust_id").value;
+        const custName =
+            document.getElementById("custName").value;
+
+        const orderType =
+            document.getElementById("coffeeType").value;
+
+        fetch("/order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id : custId,
+                cust_name: custName,
+                order_type: orderType
+            })
+        })
+            .then(res => res.json())
+            .then(order => {
+                addType(order
+                    // data.id+" "+
+                    // data.cust_name +
+                    // " ordered " +
+                    // data.order_type
+                );
+            });
+
+        form.reset();
+    });
+
+    function addType(order){
+
+        const li = document.createElement("li");
+
+        li.textContent =  `☕ #${order.id} | ${order.cust_name} ordered ${order.order_type}`;;
+
+        lst.appendChild(li);
+
+    }
+
+</script>
+
+</body>
+</html>

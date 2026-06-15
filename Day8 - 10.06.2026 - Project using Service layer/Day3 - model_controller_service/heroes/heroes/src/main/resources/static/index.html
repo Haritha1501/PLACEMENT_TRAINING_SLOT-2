@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marvel-Heroes</title>
+</head>
+<body>
+<button onclick="marvel()">Click on me!</button>
+<h2 id = "res"></h2>
+</body>
+<script>
+    async function marvel(){
+        const response = await fetch('http://localhost:8080/heroes');
+        const text = await response.text();
+        document.getElementById("res").innerText = JSON.stringify(text, null,2);
+    }
+</script>
+</html>

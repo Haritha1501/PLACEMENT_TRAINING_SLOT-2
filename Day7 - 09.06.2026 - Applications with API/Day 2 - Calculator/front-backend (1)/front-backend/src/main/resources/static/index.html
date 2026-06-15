@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:https="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Calc</title>
+</head>
+<style>
+    body{
+        text-align: center;
+        color: white;
+        background-image:  linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url('https://tinyurl.com/5xwa39sn');
+    }
+    button {
+        color: black;
+        padding: 12px 24px;
+        font-size: 16px;
+        margin: 10px;
+        border-radius: 15px;
+        text-align: center;
+    }
+    table{
+        text-align: center;
+        background-color: grey;
+        width:auto;
+    }
+    td{
+        padding:10px;
+    }
+</style>
+<body>
+<h2>Do math scientifically :</h2>
+<input type="text" id="num1" placeholder="Enter a:" style="border-radius:20px; margin: 10px; padding:5px">
+<input type = "text" id="num2" placeholder="Enter b:" style="border-radius:20px; margin: 10px; padding:5px"><br>
+<center>
+<table style="border-collapse: collapse">
+    <tr>
+        <td><button type="submit" onclick="add()" >Add</button></td>
+        <td><button type="submit" onclick="sub()" >Sub</button></td>
+        <td><button type="submit" onclick="mul()" >Mul</button></td>
+    </tr>
+    <tr>
+        <td><button type="submit" onclick="div()" >Div</button></td>
+        <td><button type = "submit" onclick = "sin()" >Sin</button></td>
+        <td><button type = "submit" onclick = "cos()" >Cos</button></td>
+    </tr>
+    <tr>
+        <td><button type = "submit" onclick = "log()" >Log</button></td>
+        <td><button type = "submit" onclick = "log2()">Log2</button></td>
+        <td><button type = "submit" onclick = "spiral_mat()">Spiral<br>Matrix</button></td>
+    </tr>
+</table>
+</center>
+
+<h1 id="result">Check the answer here!!</h1>
+</body>
+<script>
+    <!--
+    function calculate(){
+        let num1 = document.getElementById("num1").value;
+        let num2 = document.getElementById("num2").value;
+        let ans = Number(num1)+Number(num2);
+        document.getElementById("result").textContent = "Added answer is: "+ans;
+
+    }
+    -->
+    async function add(){
+        let a = document.getElementById("num1").value;
+        let b = document.getElementById("num2").value;
+        const response = await fetch(`http://localhost:8080/calc/add/${a}/${b}`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+    async function sub(){
+        let a = document.getElementById("num1").value;
+        let b = document.getElementById("num2").value;
+        const response = await fetch(`http://localhost:8080/calc/diff/${a}/${b}`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+    async function mul(){
+        let a = document.getElementById("num1").value;
+        let b = document.getElementById("num2").value;
+        const response = await fetch(`http://localhost:8080/calc/prod/${a}/${b}`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+    async function div(){
+        let a = document.getElementById("num1").value;
+        let b = document.getElementById("num2").value;
+        const response = await fetch(`http://localhost:8080/calc/div/${a}/${b}`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+    async function sin(){
+        let a = document.getElementById("num1").value;
+        const response = await fetch(`http://localhost:8080/calc/sin/${a}`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+    async function cos(){
+        let a = document.getElementById("num1").value;
+        const response = await fetch(`http://localhost:8080/calc/cos/${a}`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+    async function log(){
+        let a = document.getElementById("num1").value;
+        const response = await fetch(`http://localhost:8080/calc/log/${a}`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+    async function log2(){
+        let a = document.getElementById("num1").value;
+        const response = await fetch(`http://localhost:8080/calc/log2/${a}`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+    async function spiral_mat(){
+        const response = await fetch(`http://localhost:8080/spiral_matrix`);
+        const text = await response.text();
+        document.getElementById("result").innerText = text;
+    }
+</script>
+</html>

@@ -1,0 +1,36 @@
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+	public static void main(String[] args) {
+
+		SpringApplication.run(DemoApplication.class, args);
+	}
+
+}
+
+"Code Explanation:"
+1. package com.example.demo; 
+	=> This line says my java class is live inside a package(folder) called com.example.demo
+	=> Packages help to organize code and avoid name clashes
+
+
+2. import org.springframework.boot.SpringApplication;
+	=> This is the helper that starts your application or app
+
+3. import org.springframework.boot.autoconfigure.SpringBootApplication;
+	=> Brings springboot classes you need
+
+4. @SpringBootApplication => Annotation 
+	=> This annotation is responsible for auto-configuration of everything
+
+5. main
+	=> This ignites key that starts your backend server
+
+Note:
+Spring Initializer giving us a default java app called DemoApplication.java . Though it looks like a normal java program, when we run it, Springboot wakes 
+up, starts a web server and waits for our endpoints.
